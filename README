@@ -1,0 +1,34 @@
+The Japanese pre-processing is written in Python 2.
+
+The pre-processing is run on the command line as follows:
+
+python main.py [INPUT_FILE]
+
+For instance:
+
+python main.py testdata/mecab/relativity.txt
+
+The input file consists of texts that have been processed by MeCab. Two formats are supported:
+
+* The surface form followed by a tab and the grammatical and pronounciation fields separated by comma (standard MeCab format).
+* The same fields but everything separated by tab (ChaSen format) and a final named entity tag (ignored).
+
+The output is saved in "testdata/output/neu". It consists of text files, for which the html ruby-tag is used for marking translation and furigana.
+
+To run this script you, thus, first have to apply MeCab to the text. 
+In addition, you need to create an SQLite database from the original JMdict XML and the Kanjidic
+You create the database by running the following commands:
+python readjmdict.py JMdict
+perl kanjidic-to-sql.pl kanjidic
+
+You can find KANJIDIC at https://www.edrdg.org/wiki/index.php/KANJIDIC_Project and JMdict at https://www.edrdg.org/jmdict/edict_doc.html
+
+It is also possible to use emotion- and sentiment-dictionaries. This is carried out through specifying which dictionaries to use in the file called: 'dictionary_configuration.py'
+If such dictionaries are specified, it will results in a markup of these words in the text files.
+
+Now, only dummy versions (only including one term) of the dictionaries are included. 
+
+The real dictionaries are described in:
+* Akira Nakamura. 1993. Kanjo hyogen jiten [Dictionary of Emotive Expressions]. Tokyodo Publishing, Tokyo, Japan.
+* Rafal Rzepka and Kenji Araki. 2012. Polarization of consequence expressions for an automatic ethical judgment based on moral stages theory. IPSJ SIG Notes, 14(2012-NL-207):1–4, July.
+* Hiroya Takamura, Takashi Inui, and Manabu Okumura. 2005. Extracting semantic orientations of words using spin model. In Proceedings of the 43rd Annual Meeting on Association for Computational Linguistics, ACL ’05, pages 133–140. ACL. 
