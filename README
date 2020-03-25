@@ -1,34 +1,51 @@
+This repository contains the code for pre-processing Japanese texts, in order to make it possible to run the Topics2Themes tool on these texts. (The code for Topics2Themes is found at https://github.com/mariask2/topics2themes)
+
+The pre-processing is described here:
+Skeppstedt, M., Ahltorp, M., Kerren, A., Rzepka, R., Araki, K. 2019. "Application of a topic model visualisation tool to a second language." Book of Abstracts of the CLARIN Annual Conference 2019, Leipzig, Germany
+
+
+*****************************
+
 The Japanese pre-processing is written in Python 2.
 
 The pre-processing is run on the command line as follows:
 
 python main.py [INPUT_FILE]
 
-For instance:
+For example:
 
 python main.py testdata/mecab/relativity.txt
 
 The input file consists of texts that have been processed by MeCab. Two formats are supported:
 
-* The surface form followed by a tab and the grammatical and pronounciation fields separated by comma (standard MeCab format).
+* The surface form followed by a tab and the grammatical and pronunciation fields separated by comma (standard MeCab format).
 * The same fields but everything separated by tab (ChaSen format) and a final named entity tag (ignored).
 
-The output is saved in "testdata/output/neu". It consists of text files, for which the html ruby-tag is used for marking translation and furigana.
+The output is saved in "testdata/output/neu". It consists of text files, where the html ruby-tag is used for marking translation and furigana.
 
-To run this script you, thus, first have to apply MeCab to the text. 
-In addition, you need to create an SQLite database from the original JMdict XML and the Kanjidic
+For instructions on how to run MeCab, see the MeCab documentation, but for most users, it is enough to just pipe the text through MeCab without any arguments.
+
+Before you can run the script, you need to create an SQLite database from the original JMdict XML and the KANJIDIC.
 You create the database by running the following commands:
 python readjmdict.py JMdict
 perl kanjidic-to-sql.pl kanjidic
 
 You can find KANJIDIC at https://www.edrdg.org/wiki/index.php/KANJIDIC_Project and JMdict at https://www.edrdg.org/jmdict/edict_doc.html
 
-It is also possible to use emotion- and sentiment-dictionaries. This is carried out through specifying which dictionaries to use in the file called: 'dictionary_configuration.py'
-If such dictionaries are specified, it will results in a markup of these words in the text files.
+It is also possible to use emotion- and sentiment-dictionaries. You do this by specifying which dictionaries to use in the file called: 'dictionary_configuration.py'
+If dictionaries are specified, the words will be marked with the matching sentiment in the output.
+Dummy dictionaries (only including one term) are included.
 
-Now, only dummy versions (only including one term) of the dictionaries are included. 
+*******************************
 
-The real dictionaries are described in:
+You can choose any emotion- and sentiment dictionaries you like. However, if you want more information about the dictionaries used in the experiments described in "Application of a topic model visualisation tool to a second language", please read:
 * Akira Nakamura. 1993. Kanjo hyogen jiten [Dictionary of Emotive Expressions]. Tokyodo Publishing, Tokyo, Japan.
 * Rafal Rzepka and Kenji Araki. 2012. Polarization of consequence expressions for an automatic ethical judgment based on moral stages theory. IPSJ SIG Notes, 14(2012-NL-207):1–4, July.
 * Hiroya Takamura, Takashi Inui, and Manabu Okumura. 2005. Extracting semantic orientations of words using spin model. In Proceedings of the 43rd Annual Meeting on Association for Computational Linguistics, ACL ’05, pages 133–140. ACL. 
+
+******************************
+
+This repository also contains the configuration file (topic_model_configuration.py) used in the experiments described in "Application of a topic model visualisation tool to a second language", as well as a list of corpus specific stop words (corpus_specific_stopwords.txt) and words to exclude from the automatic clustering (not_cluster.txt). They are all found in the directory T2T_japanese_tweets_configuration.
+
+A general Japanese stop word list was also used in the experiments. This list can be found here: 
+https://github.com/stopwords/japanese-stopwords/blob/master/data/japanese-stopwords.txt
