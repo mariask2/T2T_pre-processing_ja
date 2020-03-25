@@ -27,8 +27,9 @@ For instructions on how to run MeCab, see the MeCab documentation, but for most 
 
 Before you can run the script, you need to create an SQLite database from the original JMdict XML and the KANJIDIC.
 You create the database by running the following commands:
+mkdir lib
 python readjmdict.py JMdict
-perl kanjidic-to-sql.pl kanjidic
+perl kanjidic-to-sql.pl kanjidic | sqlite3 lib/JMDict.sqlite
 
 You can find KANJIDIC at https://www.edrdg.org/wiki/index.php/KANJIDIC_Project and JMdict at https://www.edrdg.org/jmdict/edict_doc.html
 
